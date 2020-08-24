@@ -15,12 +15,7 @@ LIB="$LIB/../tools/Python/@P@plot/matplotlib"
 TOOL="@P@plot"
 VERS="@MCCODE_VERSION@"
 
-# Is this a mac?
-if [ `uname` != "Darwin" ]; then
-    PYTHON="python3"
-else
-    PYTHON="pythonw"
-fi
+PYTHON="python3"
 
 canrun() {
     if ! [ -x ${LIB}/${TOOL}.py ]; then
