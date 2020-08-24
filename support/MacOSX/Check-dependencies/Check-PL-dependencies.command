@@ -159,6 +159,18 @@ then
     PERLVER="SYSTEM"
     TKPKG="Tk-804_032_MacOSX_10_10_Perl_5_18.pkg.zip"
     SCIPDL="SciPDL-v2.5-Yosemite.pkg.zip"
+elif [ "$OSXVER" == "15" ];
+then
+    # 10.15 aka Catalina
+    PERLVER="SYSTEM"
+    TKPKG="Tk-804_032_MacOSX_10_10_Perl_5_18.pkg.zip"
+    SCIPDL="SciPDL-v2.5-Yosemite.pkg.zip"
+elif [ "$OSXVER" == "0" ];
+then
+    # 11.0 aka Big Sur
+    PERLVER="perl5.18"
+    TKPKG="Tk-804_032_MacOSX_10_10_Perl_5_18.pkg.zip"
+    SCIPDL="SciPDL-v2.5-Yosemite.pkg.zip"
 else
     osascript -e "tell app \"System Events\" to display dialog \"Your macOS is version $OSXVER is not confirmed to work with the the McCode perl tools... Would you like to attempt installation of the tools known to work with High Sierra and Mojave?\""
     rc1=$?; 
