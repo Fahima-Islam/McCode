@@ -49,34 +49,24 @@ make install
 cd $WORK
 rm -rf 3rdparty-build/ncrystal/build
 
+echo "*********************************************************"
+echo "* Embedding Python modules in your app                  *"
+echo "*********************************************************"
 
-if [ ! -f Miniconda3-latest-MacOSX-x86_64.sh ]; then
-    # Download and embed a miniconda
-    echo
-    echo "*********************************************************"
-    echo "* Downloading a miniconda3 for your app                 *"
-    echo "*********************************************************"
-    echo   
-    sleep 3
-    curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-fi
-echo "*********************************************************"
-echo "* Embedding miniconda3 in your app                      *"
-echo "*********************************************************"
-chmod a+x Miniconda3-latest-MacOSX-x86_64.sh
-./Miniconda3-latest-MacOSX-x86_64.sh -b -p $MCINSTALL_PREFIX/mcstas/$1/miniconda3/
+mkdir -p $MCINSTALL_PREFIX/mcstas/$1/python/
+cd $MCINSTALL_PREFIX/mcstas/$1/
+ln -sf python miniconda3
+mkdir -p python/lib
+mkdir -p python/lib/python
+mkdir -p python/lib/python/site-packages
+mkdir -p python/bin
+ln -sf /usr/bin/python3 python/bin/
+ln -sf /usr/bin/python3 python/bin/python
+ln -sf /usr/bin/python3 python/bin/pythonw
+cd -
 
-# Run conda to install the dependencies
-echo
-echo "*********************************************************"
-echo "* Downloading python dependencies to embedded miniconda *"
-echo "*********************************************************"
-echo 
-export PATHBAK=$PATH
-export PATH=$MCINSTALL_PREFIX/mcstas/$1/miniconda3/bin:$PATH
-$MCINSTALL_PREFIX/mcstas/$1/miniconda3/bin/conda install openmpi gsl matplotlib nomkl -y
-$MCINSTALL_PREFIX/mcstas/$1/miniconda3/bin/pip install PyQt5 Qscintilla pyqtgraph pyaml ply numpy scipy pillow tornado jinja2 mpld3
-export PATH=$PATHBAK
+export PYVER=`/usr/bin/python3 --version | cut -f 2 -d\  | cut -f 1-2 -d.`
+/usr/bin/python3 -m pip install --target=$MCINSTALL_PREFIX/mcstas/$1/python/lib/python$PYVER/site-packages --ignore-installed PyQt5 Qscintilla pyqtgraph pyaml ply numpy scipy pillow tornado jinja2 mpld3 gsl matplotlib
 # Copy in the mpicc snippets
 cp support/MacOSX/mpicc-wrappers/* $MCINSTALL_PREFIX/mcstas/$1/bin
 
@@ -92,7 +82,7 @@ export MCINSTALL_PREFIX=/Applications/McStas-$1.app/Contents/Resources/
 
 cd $WORK
 # Generate mcdoc pages
-$MCINSTALL_PREFIX/mcstas/$1/miniconda3/bin/python $MCINSTALL_PREFIX/mcstas/$1/tools/Python/mcdoc/mcdoc.py -i
+/usr/bin/python3 $MCINSTALL_PREFIX/mcstas/$1/tools/Python/mcdoc/mcdoc.py -i
 
 mkdir -p dist
 # Move the App bundle back to the dist - or keep it in /Applications?
