@@ -25,6 +25,8 @@ configuration = {
     "PARTICLE": '@MCCODE_PARTICLE@',
     "BROWSER": '@BROWSER@',
     "GUICOLS": '3',
+    "INFOCOLOR": 'blue',
+    "ERRCOLOR": 'red',    
 }
 
 # Set environment variables according to the above

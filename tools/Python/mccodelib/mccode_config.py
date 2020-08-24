@@ -25,6 +25,8 @@ configuration = {
     "PARTICLE": 'neutron',
     "BROWSER": 'xdg-open',
     "GUICOLS": '3',
+    "INFOCOLOR": 'blue',
+    "ERRCOLOR": 'red',    
 }
 
 # Set environment variables according to the above

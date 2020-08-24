@@ -63,11 +63,9 @@ class McView(object):
 
     def updateLog(self, text='', error=False, gui=False):
         if error:
-            self.mw.ui.txtbrwMcgui.setTextColor(QtGui.QColor('red'))
+            self.mw.ui.txtbrwMcgui.setTextColor(QtGui.QColor(mccode_config.configuration["ERRCOLOR"]))
         elif gui:
-            self.mw.ui.txtbrwMcgui.setTextColor(QtGui.QColor('blue'))
-        else:
-            self.mw.ui.txtbrwMcgui.setTextColor(QtGui.QColor('black'))
+            self.mw.ui.txtbrwMcgui.setTextColor(QtGui.QColor(mccode_config.configuration["INFOCOLOR"]))
         self.mw.ui.txtbrwMcgui.append(text)
     
     def disableRunBtn(self):
@@ -1127,6 +1125,12 @@ class McConfigDialog(QtWidgets.QDialog):
         self.ui.edtNumCols.setText(mccode_config.configuration["GUICOLS"])
         self.ui.edtNumCols.conf_var = "GUICOLS"
 
+        self.ui.edtInfoCol.setText(mccode_config.configuration["INFOCOLOR"])
+        self.ui.edtInfoCol.conf_var = "INFOCOLOR"
+
+        self.ui.edtErrCol.setText(mccode_config.configuration["ERRCOLOR"])
+        self.ui.edtErrCol.conf_var = "ERRCOLOR"
+
     def __pullValuesTo_mccode_config(self):
         # mcrun combobox
         i = self.ui.cbxMcrun.currentIndex()
@@ -1147,6 +1151,8 @@ class McConfigDialog(QtWidgets.QDialog):
         mccode_config.compilation[str(self.ui.edtMPIrun.conf_var)] = str(self.ui.edtMPIrun.text())
         mccode_config.compilation[str(self.ui.edtNumNodes.conf_var)] = str(self.ui.edtNumNodes.text())
         mccode_config.configuration[str(self.ui.edtNumCols.conf_var)] = str(self.ui.edtNumCols.text())
+        mccode_config.configuration[str(self.ui.edtInfoCol.conf_var)] = str(self.ui.edtInfoCol.text())
+        mccode_config.configuration[str(self.ui.edtErrCol.conf_var)] = str(self.ui.edtErrCol.text())
         # Export selected variables to the system / mcrun
         target_mccode=mccode_config.configuration["MCCODE"].upper()
         # CFLAGS and CC:
